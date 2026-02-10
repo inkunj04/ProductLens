@@ -113,6 +113,7 @@ The interface is calm and distraction-free, designed to support comparison and r
 
 ## Project Structure
 
+```text
 Task_2/
 ├── src/
 │   ├── components/
