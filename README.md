@@ -140,7 +140,7 @@ Task_2/
 cd server
 npm install
 node index.js
-
+```
 
 ### Frontend
 cd client
