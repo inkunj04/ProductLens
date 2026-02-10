@@ -114,22 +114,20 @@ The interface is calm and distraction-free, designed to support comparison and r
 ## Project Structure
 
 Task_2/
-├── src/ # Frontend (React)
-│ ├── components/
-│ ├── pages/
-│ └── App.jsx
-│
-├── public/ # Static assets
-│
-├── server/ # Backend (Express)
-│ ├── index.js # API entry point
-│ ├── db.js # SQLite setup
-│ ├── seed.js # Seed data
-│ └── reviews.db # Local database
-│
-├── README.md # Project overview
-├── package.json # Frontend dependencies
+├── src/
+│   ├── components/
+│   ├── pages/
+│   └── App.jsx
+├── public/
+├── server/
+│   ├── index.js
+│   ├── db.js
+│   ├── seed.js
+│   └── reviews.db
+├── README.md
+├── package.json
 └── vite.config.js
+
 
 
 ---
