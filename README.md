@@ -143,6 +143,8 @@ node index.js
 ```
 
 ### Frontend
+```bash
+
 cd client
 npm install
 npm run dev
