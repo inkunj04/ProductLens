@@ -1,57 +1,152 @@
-# Community-Driven Product Review Platform
+# ProductLens  
+Community-Driven Product Review Platform (Prototype)
 
-A small full-stack working prototype for a community-driven product review platform.
+ProductLens is a small full-stack working prototype for a **community-driven product review platform** where reviews are treated as **mini product analyses**, not opinion dumps.
+
+The focus is on **use-case fit, trade-offs, and real signals**, helping users make informed decisions with fewer but higher-quality reviews.
+
+This project is intentionally scoped as a prototype for evaluation purposes.
+
+---
 
 ## Core Idea
-Reviews are structured as mini product analyses focused on use-case fit, trade-offs, and signals, not rants.
+
+Most review platforms prioritize star ratings and free-text comments, which often results in emotional, low-context feedback.
+
+ProductLens takes a different approach:
+- Reviews are **structured**
+- Context is explicit
+- Trade-offs are encouraged
+- Ratings are supporting signals, not the main artifact
+
+The goal is to help users *think better*, not scroll longer.
+
+---
 
 ## Tech Stack
+
+- **Frontend**: React (Vite)
 - **Backend**: Node.js + Express
 - **Database**: SQLite
-- **Frontend**: React
 - **API Style**: REST
+
+---
+
+## System Architecture
+
+**Frontend (React) → Backend (Node.js + Express) → Database (SQLite)**
+
+### Architectural Decisions
+
+- **REST APIs**  
+  Chosen for simplicity and clarity. Resource-oriented endpoints are easy to reason about and sufficient for this scope.
+
+- **SQLite**  
+  Used for zero-configuration persistence. No separate database service is required, making the prototype easy to run locally.
+
+- **Aggregation at Read Time**  
+  Average ratings and rating distributions are computed using SQL queries (`AVG`, `COUNT`) when data is fetched.
+  
+  **Trade-off**:  
+  This would be less optimal at very large scale, but it guarantees data consistency and avoids premature optimization, which is appropriate for a prototype.
+
+---
+
+## Data Models
+
+- **Product**  
+  Core entity being evaluated.
+
+- **Review**  
+  The primary value unit. Reviews are structured to capture:
+  - Usage intent
+  - Problem the user was trying to solve
+  - What worked
+  - What didn’t
+  - Optional unexpected insight
+
+- **User**  
+  Mocked for this prototype to keep focus on review mechanics rather than identity management.
+
+---
+
+## Key Features Implemented
+
+### 1. Structured Reviews
+Reviews are intentionally split into clear sections to reduce noise and encourage thoughtful input.
+
+### 2. Intent-Based Context
+Each review captures *how* the product was used:
+- Exploring
+- Evaluating
+- Daily Use
+- Power User
+
+Users can filter reviews by intent to find feedback relevant to their situation.
+
+### 3. Rating Distribution
+In addition to average rating, the system displays rating distribution to expose disagreement or polarization instead of hiding it behind a single number.
+
+### 4. Minimal, Analytical UI
+The interface is calm and distraction-free, designed to support comparison and reasoning rather than emotional reactions.
+
+---
 
 ## Engineering Rationale & Trade-offs
 
-### 1. High-Level System Architecture
-**Frontend (React) -> Backend (Node.js + Express) -> Database (SQLite)**
+- **No Authentication**  
+  Deliberately excluded to reduce friction and keep focus on the review model.
 
-*   **REST API**: Chosen for simplicity and standard resource-oriented design suitable for this scope.
-*   **SQLite**: Chosen for zero-configuration persistence. No separate database process needed.
-*   **Aggregation at Read Time**: Average ratings are calculated via SQL `AVG()` queries when fetching products.
-    *   *Trade-off*: For extremely high write volumes, this might be slower than pre-aggregating. However, for a prototype and even moderate scale, it ensures 100% data consistency without complex cache invalidation or update logic.
+- **Basic Styling**  
+  Visual polish is intentionally limited. Priority is given to information hierarchy and clarity over aesthetics.
 
-### 2. Data Models
-*   **Product**: Core entity.
-*   **Review**: The value unit. Structured with `problem_solved`, `what_worked`, `what_didnt` to enforce high-quality feedback.
-*   **User**: Mocked for this prototype to focus on the review mechanics.
+- **Local SQL Database**  
+  Simplifies development, testing, and evaluation. No deployment complexity.
 
-### 3. Scope & Artificial Constraints
-*   **No Authentication**: To reduce friction for the prototype.
-*   **Basic Styling**: Focus is on functionality and structure, not polished aesthetics.
-*   **In-Memory/Local SQL**: Simplifies deployment and testing.
+- **Schema Evolution**  
+  Fields such as `intent` and `unexpected_insight` were added as the product idea evolved.
+  
+  - Intent values are constrained at the database level to ensure data integrity.
+  - Rating aggregates are recalculated dynamically for correctness and simplicity.
 
-## Product Refinement (Phase 2)
-### Key Features
-1.  **Intent Tags**: Users evaluate products differently based on their goal (Exploring, Evaluating, Daily Use, Power User). This context is now captured and displayed.
-2.  **Trade-off Snapshot**: Structure ensures "What Worked" and "What Didn't" are explicitly separated, plus an optional "Unexpected Insight".
-3.  **Rating Distribution**: Averages hide polarity. The distribution bar reveals if a product is polarizing (e.g., love/hate) or consistently average.
+---
 
-### Engineering Rationale
--   **Schema Evolution**: Added `intent` and `unexpected_insight` columns.
--   **Data Integrity**: Check constraints on `intent` ensure valid enum values at the DB level.
--   **Aggregation**: Rating distribution is calculated on-the-fly for simplicity, ensuring real-time consistency without complex counters.
+## Project Structure
 
-## How to Run
-1.  **Backend**:
-    ```bash
-    cd server
-    npm install
-    node index.js
-    ```
-2.  **Frontend**:
-    ```bash
-    cd client
-    npm install
-    npm run dev
-    ```
+Task_2/
+├── src/ # Frontend (React)
+│ ├── components/
+│ ├── pages/
+│ └── App.jsx
+│
+├── public/ # Static assets
+│
+├── server/ # Backend (Express)
+│ ├── index.js # API entry point
+│ ├── db.js # SQLite setup
+│ ├── seed.js # Seed data
+│ └── reviews.db # Local database
+│
+├── README.md # Project overview
+├── package.json # Frontend dependencies
+└── vite.config.js
+
+
+---
+
+## How to Run the Project
+
+### Backend
+
+```bash
+cd server
+npm install
+node index.js
+
+
+### Frontend
+cd client
+npm install
+npm run dev
+
+
