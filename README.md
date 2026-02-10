@@ -129,9 +129,8 @@ Task_2/
 ├── package.json
 └── vite.config.js
 
+```
 
-
----
 
 ## How to Run the Project
 
